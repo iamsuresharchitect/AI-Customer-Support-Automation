@@ -1,0 +1,23 @@
+# Secrets
+.env
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Runtime data (rebuilt automatically)
+chroma_db/
+logs/*.csv
+logs/*.xlsx
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Course material
+AI_Customer_Support_Automation.pdf
