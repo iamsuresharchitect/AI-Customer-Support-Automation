@@ -1,4 +1,5 @@
 """Runs the assignment's test complaints (plus our own) through the team and prints a summary.
+Escalated tickets stay "Pending approval" so they can be reviewed later in the app's Approvals tab.
 
     python test_cases.py          # all cases
     python test_cases.py 5        # only case 5
@@ -20,6 +21,10 @@ TEST_CASES = [
     # Our own cases
     ("Can I change the delivery address? I just placed the order an hour ago.", "Deepa", "ORD-4802", "Resolved"),
     ("Someone logged into my account and placed orders I never made. This is fraud!", "Vikram", "", "Escalated"),
+    # Hindi: "My order hasn't arrived yet. It was supposed to come yesterday." The reply should be in Hindi.
+    ("मेरा ऑर्डर अभी तक नहीं आया। यह कल आना था।", "Priya", "ORD-4512", "Resolved"),
+    # Tamil: "I need to return the shoes I bought last week. How do I get my money back?"
+    ("நான் கடந்த வாரம் வாங்கிய காலணிகளைத் திருப்பி அனுப்ப வேண்டும். பணத்தை எப்படித் திரும்பப் பெறுவது?", "Arjun", "ORD-4630", "Resolved"),
 ]
 
 
@@ -38,7 +43,7 @@ async def main(selected: list[int]) -> None:
         passed += ok
         print(f"\n#{number} {'PASS' if ok else 'FAIL'}  {complaint}")
         if outcome:
-            print(f"   {outcome.category} | {outcome.urgency} | {outcome.sentiment} | sources: {outcome.used_sources} | confidence: {outcome.confidence}")
+            print(f"   {outcome.category} | {outcome.urgency} | {outcome.sentiment} | {outcome.language} | sources: {outcome.used_sources} | confidence: {outcome.confidence}")
             print(f"   {outcome.ticket_id} {outcome.status} (expected {expected}) {outcome.escalation_reason}")
     total = len(selected) if selected else len(TEST_CASES)
     print(f"\n{passed}/{total} cases matched the expected status.")

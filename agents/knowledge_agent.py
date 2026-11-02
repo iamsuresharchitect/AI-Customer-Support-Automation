@@ -130,14 +130,14 @@ def search_kb(query: str) -> str:
 
 SYSTEM_MESSAGE = """You are the Knowledge Base Agent for ShopNest customer support.
 Your only job is to look up company documents. Do not answer the customer.
-Read the Query Agent's CATEGORY and SUMMARY, then call the search_kb tool exactly once with a short, specific search query (for example "late order delivery timeline trace").
+Read the Query Agent's CATEGORY and SUMMARY, then call the search_kb tool exactly once with a short, specific search query in English (for example "late order delivery timeline trace"), even if the customer wrote in another language.
 Do not write anything else; the tool's output is passed on to the Resolution Agent."""
 
 
 def create_knowledge_agent(model_client) -> AssistantAgent:
     return AssistantAgent(
         name="knowledge_agent",
-        description="Searches the company knowledge base and returns relevant passages with source file names.",
+        description="Searches the company knowledge base and returns relevant passages with source file names. Speaks after the complaint has been classified.",
         model_client=model_client,
         system_message=SYSTEM_MESSAGE,
         tools=[search_kb],

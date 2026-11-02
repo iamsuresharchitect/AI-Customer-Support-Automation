@@ -19,13 +19,21 @@ COLUMNS = [
     "category",
     "urgency",
     "sentiment",
+    "language",
     "summary",
     "kb_sources",
     "response",
     "confidence",
     "status",
     "escalation_reason",
+    # Human review of escalated tickets (see agents/review_agent.py)
+    "review_status",
+    "reviewer",
+    "final_response",
+    "reviewed_at",
 ]
+
+PENDING = "Pending approval"
 
 # Legal threats, fraud and payment disputes always go to a human.
 SENSITIVE_PATTERNS = {
@@ -53,12 +61,59 @@ def decide_escalation(complaint: str, urgency: str, sentiment: str, kb_sources: 
     return reasons
 
 
-def _next_ticket_id() -> str:
+def _read_rows() -> list[dict]:
     if not LOG_FILE.exists():
-        return "TKT-0001"
+        return []
     with LOG_FILE.open(newline="", encoding="utf-8") as f:
-        count = sum(1 for _ in csv.DictReader(f))
-    return f"TKT-{count + 1:04d}"
+        return list(csv.DictReader(f))
+
+
+def _write_rows(rows: list[dict]) -> None:
+    LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with LOG_FILE.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=COLUMNS, extrasaction="ignore")
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({col: row.get(col) or "" for col in COLUMNS})
+
+
+def _upgrade_log() -> None:
+    """Rewrite a log made by an older version so it has every current column."""
+    if not LOG_FILE.exists():
+        return
+    with LOG_FILE.open(newline="", encoding="utf-8") as f:
+        header = next(csv.reader(f), [])
+    if header == COLUMNS:
+        return
+    rows = _read_rows()
+    for row in rows:
+        row["language"] = row.get("language") or "English"  # older versions only handled English
+        if not row.get("review_status"):
+            row["review_status"] = PENDING if row.get("status") == "Escalated" else "Not needed"
+        if row["review_status"] == "Not needed" and not row.get("final_response"):
+            row["final_response"] = row.get("response", "")
+    _write_rows(rows)
+
+
+def _next_ticket_id() -> str:
+    return f"TKT-{len(_read_rows()) + 1:04d}"
+
+
+def get_ticket(ticket_id: str) -> dict | None:
+    _upgrade_log()
+    return next((row for row in _read_rows() if row["ticket_id"] == ticket_id), None)
+
+
+def update_ticket(ticket_id: str, **fields: str) -> bool:
+    """Change fields of one logged ticket; returns False if the ticket is not in the log."""
+    _upgrade_log()
+    rows = _read_rows()
+    for row in rows:
+        if row["ticket_id"] == ticket_id:
+            row.update(fields)
+            _write_rows(rows)
+            return True
+    return False
 
 
 def log_ticket(
@@ -72,6 +127,7 @@ def log_ticket(
     kb_sources: str,
     response: str,
     confidence: str,
+    language: str = "English",
     extra_escalation_reason: str = "",
 ) -> str:
     """Append one ticket to logs/tickets.csv, apply the escalation rule, and return the ticket ID and status. Pass extra_escalation_reason only if the case needs a human for a reason the rule may miss."""
@@ -80,6 +136,7 @@ def log_ticket(
         reasons.append(extra_escalation_reason.strip())
     status = "Escalated" if reasons else "Resolved"
 
+    _upgrade_log()
     LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     is_new = not LOG_FILE.exists()
     ticket_id = _next_ticket_id()
@@ -92,12 +149,18 @@ def log_ticket(
         "category": category.strip(),
         "urgency": urgency.strip(),
         "sentiment": sentiment.strip(),
+        "language": language.strip() or "English",
         "summary": summary.strip(),
         "kb_sources": kb_sources.strip() or "NONE",
         "response": response.strip(),
         "confidence": confidence.strip(),
         "status": status,
         "escalation_reason": " + ".join(reasons),
+        # Escalated replies wait for a support person; resolved ones go out as written.
+        "review_status": PENDING if reasons else "Not needed",
+        "reviewer": "",
+        "final_response": "" if reasons else response.strip(),
+        "reviewed_at": "",
     }
     with LOG_FILE.open("a", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=COLUMNS)
@@ -114,7 +177,7 @@ Your only job is to record the ticket by calling the log_ticket tool exactly onc
 
 Fill the arguments from the conversation:
 - customer_name, order_id, complaint: from the original ticket (use "" if not given). Copy the complaint exactly.
-- category, urgency, sentiment, summary: from the Query Agent.
+- category, urgency, sentiment, language, summary: from the Query Agent.
 - kb_sources: the Resolution Agent's USED_SOURCES line (NONE if it says NONE).
 - response: the Resolution Agent's REPLY text, copied exactly.
 - confidence: the Resolution Agent's CONFIDENCE.
@@ -126,7 +189,7 @@ The tool applies the escalation rule. Do not write anything else."""
 def create_log_agent(model_client) -> AssistantAgent:
     return AssistantAgent(
         name="log_agent",
-        description="Records every ticket to the log file and escalates complicated cases to human support.",
+        description="Records every ticket to the log file and escalates complicated cases to human support. Speaks last, once the Resolution Agent has written the reply.",
         model_client=model_client,
         system_message=SYSTEM_MESSAGE,
         tools=[log_ticket],

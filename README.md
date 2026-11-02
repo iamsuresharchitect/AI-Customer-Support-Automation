@@ -1,6 +1,6 @@
 # AI Customer Support Automation
 
-A multi-agent support desk for **ShopNest**, a made-up online store. Four AutoGen agents powered by Claude read a customer complaint, look up the answer in the company's own policy documents, write a grounded reply, and log every ticket, handing the hard cases to a human.
+A multi-agent support desk for **ShopNest**, a made-up online store. Four AutoGen agents powered by Claude read a customer complaint, look up the answer in the company's own policy documents, write a grounded reply in the customer's own language, and log every ticket. Hard cases go to a human support person, who approves, edits or rejects the reply before it is sent.
 
 Built with **AutoGen (agentchat 0.7)**, **Anthropic Claude**, **ChromaDB** and **Streamlit**.
 
@@ -27,16 +27,31 @@ Customer complaint (Streamlit form)
 ┌──────────────────────┐   log_ticket(...) ──► logs/tickets.csv
 │      Log Agent       │   escalation rule ──► Resolved / Escalated
 └──────────────────────┘   replies "LOGGED TKT-0007" ──► team stops
+        │
+        ▼  (escalated tickets only)
+┌──────────────────────┐   Approvals tab: approve / edit / reject
+│ Support reviewer     │   UserProxyAgent ──► review_status, final_response
+│ (human)              │
+└──────────────────────┘
 ```
 
 | Agent | Job | Output |
 |---|---|---|
-| Customer Query Agent | Understands the complaint | Category, urgency (Low/Medium/High), sentiment, one-line summary |
+| Customer Query Agent | Understands the complaint | Category, urgency (Low/Medium/High), sentiment, language, one-line summary |
 | Knowledge Base Agent | Calls the `search_kb` tool | Matching passages with their source file |
-| Resolution Agent | Writes the customer reply from the passages only | Reply, sources used, confidence |
+| Resolution Agent | Writes the customer reply from the passages only, in the customer's language | Reply, sources used, confidence |
 | Log Agent | Calls the `log_ticket` tool | One CSV row, status and escalation reason |
+| Support reviewer (human) | A `UserProxyAgent` for the support person | Approved, edited or rejected reply |
 
-The agents run in a `RoundRobinGroupChat` in the order Query → Knowledge → Resolution → Log. A `TextMentionTermination("LOGGED")` on the Log Agent ends the run, with a `MaxMessageTermination(8)` as a safety net.
+The agents run in a `SelectorGroupChat`: after each message the model reads the conversation and the agents' descriptions and picks who speaks next (normally Query → Knowledge → Resolution → Log). A `candidate_func` offers only agents that haven't spoken yet, so each does its job once and the run can't loop. A `TextMentionTermination("LOGGED")` on the Log Agent ends the run, with a `MaxMessageTermination(8)` as a safety net.
+
+### Human in the loop
+
+Escalated tickets are logged as **Pending approval**. In the app's **Approvals** tab, a support person reads the complaint, the reason it was escalated and the draft reply, then approves it, edits it, or rejects it with a note. The decision goes through AutoGen's `UserProxyAgent` (`agents/review_agent.py`) and is saved in the ticket log (`review_status`, `reviewer`, `final_response`, `reviewed_at`). Running `python team.py "..."` asks for the same decision in the terminal.
+
+### Customer language
+
+The Query Agent detects the complaint's language, including Indian languages such as Tamil, Malayalam, Telugu and Hindi (and Tanglish-style mixes). The Knowledge Base Agent still searches in English, and the Resolution Agent writes the reply in the customer's language. The language is shown on the result and saved in the log.
 
 ### Knowledge base (RAG)
 
@@ -57,7 +72,7 @@ The rule lives in plain Python (`decide_escalation` in `agents/log_agent.py`) so
 ## Project structure
 
 ```
-├── app.py                     # Streamlit UI: new ticket, ticket log, dashboard
+├── app.py                     # Streamlit UI: new ticket, approvals, ticket log, dashboard
 ├── team.py                    # wires the four agents into one AutoGen team
 ├── test_cases.py              # runs the test complaints and checks the status
 ├── agents/
@@ -65,7 +80,8 @@ The rule lives in plain Python (`decide_escalation` in `agents/log_agent.py`) so
 │   ├── query_agent.py         # Customer Query Agent
 │   ├── knowledge_agent.py     # Knowledge Base Agent + search_kb tool (ChromaDB)
 │   ├── resolution_agent.py    # Resolution Agent
-│   └── log_agent.py           # Log Agent + log_ticket tool + escalation rule
+│   ├── log_agent.py           # Log Agent + log_ticket tool + escalation rule
+│   └── review_agent.py        # human approval through UserProxyAgent
 ├── knowledge_base/            # company documents
 ├── logs/tickets.csv           # created automatically
 ├── screenshots/
@@ -117,8 +133,10 @@ python test_cases.py 5      # just case 5
 | 6 | Do you sell gift cards for a company of 500 employees with custom branding? | Not covered by the docs · honest reply · **Escalated** (low confidence) |
 | 7 *(own)* | Can I change the delivery address? I just placed the order an hour ago. | Shipping · shipping_policy.md · **Resolved** |
 | 8 *(own)* | Someone logged into my account and placed orders I never made. This is fraud! | Account · High · Angry · **Escalated** (high urgency, angry, possible fraud) |
+| 9 *(own)* | मेरा ऑर्डर अभी तक नहीं आया। यह कल आना था। (Hindi: my order hasn't arrived) | Shipping · Hindi · reply in Hindi · expected **Resolved** |
+| 10 *(own)* | நான் கடந்த வாரம் வாங்கிய காலணிகளைத் திருப்பி அனுப்ப வேண்டும். பணத்தை எப்படித் திரும்பப் பெறுவது? (Tamil: return shoes, get a refund) | Refund · Tamil · reply in Tamil · expected **Resolved** |
 
-8/8 cases matched the expected status.
+Cases 1 to 8 matched the expected status in the live run. Cases 9 and 10 were added with the language feature.
 
 ## Screenshots
 
@@ -134,10 +152,17 @@ python test_cases.py 5      # just case 5
 |---|---|
 | ![Ticket log](screenshots/ticket_log.png) | ![Dashboard](screenshots/dashboard.png) |
 
+| Approvals (human in the loop) | Reply in the customer's language |
+|---|---|
+| ![Approvals](screenshots/approvals.png) | ![Tamil reply](screenshots/tamil_reply.png) |
+
 ## Bonus features
 
 - **Embeddings + vector store:** ChromaDB with a local embedding model, rebuilt automatically when the documents change.
-- **Dashboard:** totals, tickets per category, resolved vs escalated by category, tickets by urgency, tickets per day, and escalation reasons.
+- **SelectorGroupChat:** the model decides which agent speaks next.
+- **Human in the loop:** a support person approves, edits or rejects escalated replies through `UserProxyAgent`.
+- **Multilingual replies:** the customer's language (for example Tamil, Malayalam, Telugu, Hindi) is detected and the reply is written in it, in that language's script.
+- **Dashboard:** KPIs (total, resolved by AI, escalated and awaiting approval, average urgency), ticket volume over time, tickets per category, AI resolution rate per category, urgency, customer mood and escalation reasons.
 - **Excel export:** the ticket log downloads as CSV or Excel.
 - **Deployment:** runs on Streamlit Community Cloud (see below).
 

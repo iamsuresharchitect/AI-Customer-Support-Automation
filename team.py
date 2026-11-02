@@ -1,6 +1,7 @@
-"""Wires the four agents into one AutoGen team: Query -> Knowledge -> Resolution -> Log.
+"""Wires the four agents into one AutoGen SelectorGroupChat. The model reads the conversation
+and decides which agent speaks next (normally Query -> Knowledge -> Resolution -> Log).
 
-Run one complaint from the command line:
+Run one complaint from the command line (escalated tickets then ask you to approve the reply):
     python team.py "I forgot my password and can't log in."
 """
 
@@ -13,13 +14,14 @@ from typing import AsyncGenerator
 from autogen_agentchat.base import TaskResult
 from autogen_agentchat.conditions import MaxMessageTermination, TextMentionTermination
 from autogen_agentchat.messages import BaseChatMessage
-from autogen_agentchat.teams import RoundRobinGroupChat
+from autogen_agentchat.teams import SelectorGroupChat
 
 from agents.knowledge_agent import create_knowledge_agent
-from agents.log_agent import create_log_agent
+from agents.log_agent import create_log_agent, get_ticket
 from agents.model_client import get_model_client
 from agents.query_agent import create_query_agent
 from agents.resolution_agent import create_resolution_agent
+from agents.review_agent import review_request, review_ticket
 
 AGENT_LABELS = {
     "query_agent": "Customer Query Agent",
@@ -37,6 +39,7 @@ class TicketOutcome:
     category: str = ""
     urgency: str = ""
     sentiment: str = ""
+    language: str = ""
     summary: str = ""
     reply: str = ""
     used_sources: str = ""
@@ -46,7 +49,25 @@ class TicketOutcome:
     escalation_reason: str = ""
 
 
-def build_team(model_client=None) -> RoundRobinGroupChat:
+SELECTOR_PROMPT = """You coordinate a customer support team. These agents are available:
+{roles}
+
+Conversation so far:
+{history}
+
+Pick the agent who should act next so the ticket moves forward: the complaint must be classified
+before documents are searched, a reply needs the documents, and the ticket is logged only after
+the reply is written. Choose from {participants} and answer with the agent's name only."""
+
+
+def _not_spoken_yet(thread) -> list[str]:
+    """Each agent does its job once, so the model chooses only among agents that haven't spoken."""
+    spoken = {m.source for m in thread if isinstance(m, BaseChatMessage)}
+    remaining = [name for name in AGENT_LABELS if name not in spoken]
+    return remaining or ["log_agent"]
+
+
+def build_team(model_client=None) -> SelectorGroupChat:
     model_client = model_client or get_model_client()
     agents = [
         create_query_agent(model_client),
@@ -56,7 +77,13 @@ def build_team(model_client=None) -> RoundRobinGroupChat:
     ]
     # Stop as soon as the Log Agent reports LOGGED; the message cap is a safety net.
     termination = TextMentionTermination("LOGGED", sources=["log_agent"]) | MaxMessageTermination(8)
-    return RoundRobinGroupChat(agents, termination_condition=termination)
+    return SelectorGroupChat(
+        agents,
+        model_client=model_client,
+        termination_condition=termination,
+        selector_prompt=SELECTOR_PROMPT,
+        candidate_func=_not_spoken_yet,
+    )
 
 
 def build_task(complaint: str, customer_name: str = "", order_id: str = "") -> str:
@@ -78,6 +105,7 @@ def _update_outcome(outcome: TicketOutcome, source: str, content: str) -> None:
         outcome.category = _field(content, "CATEGORY")
         outcome.urgency = _field(content, "URGENCY")
         outcome.sentiment = _field(content, "SENTIMENT")
+        outcome.language = _field(content, "LANGUAGE") or "English"
         outcome.summary = _field(content, "SUMMARY")
     elif source == "resolution_agent":
         reply = re.search(r"REPLY:\s*(.*?)\s*(?:^USED_SOURCES:|^CONFIDENCE:|\Z)", content, re.DOTALL | re.MULTILINE)
@@ -92,7 +120,7 @@ def _update_outcome(outcome: TicketOutcome, source: str, content: str) -> None:
 
 
 async def run_ticket(
-    complaint: str, customer_name: str = "", order_id: str = "", team: RoundRobinGroupChat | None = None
+    complaint: str, customer_name: str = "", order_id: str = "", team: SelectorGroupChat | None = None
 ) -> AsyncGenerator[tuple[str, str] | TicketOutcome, None]:
     """Yield (agent_name, output) as each agent finishes, then the final TicketOutcome."""
     team = team or build_team()
@@ -114,6 +142,9 @@ async def _main(complaint: str) -> None:
     async for item in run_ticket(complaint):
         if isinstance(item, TicketOutcome):
             print(f"\n=== {item.ticket_id}: {item.status} {('(' + item.escalation_reason + ')') if item.escalation_reason else ''}")
+            if item.status == "Escalated" and (ticket := get_ticket(item.ticket_id)):
+                print("\n--- Human review (UserProxyAgent) ---\n" + review_request(ticket))
+                print(f"=== Review: {await review_ticket(ticket)}")
         else:
             source, content = item
             print(f"\n--- {AGENT_LABELS[source]} ---\n{content}")
