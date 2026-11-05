@@ -1,0 +1,4 @@
+part,method,questions,hit@1,hit@3,MRR
+retrieval,dense,29,0.862,0.966,0.914
+retrieval,bm25,29,0.897,0.931,0.914
+retrieval,hybrid,29,0.931,0.966,0.948

@@ -1,0 +1,88 @@
+id,question,method,hit@1,hit@3,reciprocal_rank,rank_of_relevant,top_results
+Q01,How long is the password reset code valid?,dense,1,1,1.0,1,account_and_login.md > Resetting your password | account_and_login.md > Account locked | account_and_login.md > Deleting your account
+Q01,How long is the password reset code valid?,bm25,1,1,1.0,1,account_and_login.md > Resetting your password | account_and_login.md > Account locked | account_and_login.md > Suspicious activity or hacked account
+Q01,How long is the password reset code valid?,hybrid,1,1,1.0,1,account_and_login.md > Resetting your password | account_and_login.md > Account locked | account_and_login.md > Two-step verification
+Q02,My account got locked after I typed the wrong password a few times. How long until I can try again?,dense,1,1,1.0,1,account_and_login.md > Account locked | account_and_login.md > Resetting your password | account_and_login.md > Deleting your account
+Q02,My account got locked after I typed the wrong password a few times. How long until I can try again?,bm25,1,1,1.0,1,account_and_login.md > Account locked
+Q02,My account got locked after I typed the wrong password a few times. How long until I can try again?,hybrid,1,1,1.0,1,account_and_login.md > Account locked | account_and_login.md > Resetting your password | account_and_login.md > Suspicious activity or hacked account
+Q03,How do I change the mobile number on my account?,dense,1,1,1.0,1,account_and_login.md > Changing your email or phone number | account_and_login.md > Two-step verification | account_and_login.md > Resetting your password
+Q03,How do I change the mobile number on my account?,bm25,0,1,0.5,2,account_and_login.md > Resetting your password | account_and_login.md > Changing your email or phone number
+Q03,How do I change the mobile number on my account?,hybrid,1,1,1.0,1,account_and_login.md > Changing your email or phone number | account_and_login.md > Resetting your password | account_and_login.md > Two-step verification
+Q04,How do I turn on two-step verification?,dense,1,1,1.0,1,account_and_login.md > Two-step verification | account_and_login.md > Changing your email or phone number
+Q04,How do I turn on two-step verification?,bm25,1,1,1.0,1,account_and_login.md > Two-step verification
+Q04,How do I turn on two-step verification?,hybrid,1,1,1.0,1,account_and_login.md > Two-step verification | account_and_login.md > Changing your email or phone number
+Q05,How long does it take to delete my account?,dense,1,1,1.0,1,account_and_login.md > Deleting your account | account_and_login.md > Account locked | account_and_login.md > Resetting your password
+Q05,How long does it take to delete my account?,bm25,1,1,1.0,1,account_and_login.md > Deleting your account | shipping_policy.md > Tracking your order | account_and_login.md > Resetting your password
+Q05,How long does it take to delete my account?,hybrid,1,1,1.0,1,account_and_login.md > Deleting your account | account_and_login.md > Resetting your password | account_and_login.md > Account locked
+Q06,Someone placed orders on my account that I never made. What should I do?,dense,1,1,1.0,1,account_and_login.md > Suspicious activity or hacked account | account_and_login.md > Deleting your account | account_and_login.md > Changing your email or phone number
+Q06,Someone placed orders on my account that I never made. What should I do?,bm25,0,0,0,,shipping_policy.md > Processing time | account_and_login.md > Deleting your account
+Q06,Someone placed orders on my account that I never made. What should I do?,hybrid,0,1,0.5,2,account_and_login.md > Deleting your account | account_and_login.md > Suspicious activity or hacked account | shipping_policy.md > Changing the delivery address
+Q07,How many days do I have to return headphones?,dense,1,1,1.0,1,"refund_policy.md > Return window | refund_policy.md > Damaged, defective or wrong items | refund_policy.md > How to start a return"
+Q07,How many days do I have to return headphones?,bm25,1,1,1.0,1,refund_policy.md > Return window
+Q07,How many days do I have to return headphones?,hybrid,1,1,1.0,1,refund_policy.md > Return window | refund_policy.md > How to start a return | refund_policy.md > Refund timelines
+Q08,Can I return socks I bought?,dense,0,1,0.5,2,refund_policy.md > Exchanges | refund_policy.md > Items that cannot be returned | refund_policy.md > Return window
+Q08,Can I return socks I bought?,bm25,1,1,1.0,1,refund_policy.md > Items that cannot be returned
+Q08,Can I return socks I bought?,hybrid,1,1,1.0,1,refund_policy.md > Items that cannot be returned | refund_policy.md > Exchanges | refund_policy.md > Return window
+Q09,How do I start a return?,dense,1,1,1.0,1,refund_policy.md > How to start a return | refund_policy.md > Return window | refund_policy.md > Refund timelines
+Q09,How do I start a return?,bm25,1,1,1.0,1,refund_policy.md > How to start a return
+Q09,How do I start a return?,hybrid,1,1,1.0,1,refund_policy.md > How to start a return | refund_policy.md > Return window | refund_policy.md > Items that cannot be returned
+Q10,How long does a refund to UPI take?,dense,1,1,1.0,1,refund_policy.md > Refund timelines | refund_policy.md > Return window | refund_policy.md > Billing problems and duplicate charges
+Q10,How long does a refund to UPI take?,bm25,1,1,1.0,1,refund_policy.md > Refund timelines | product_faq.md > Payment methods | shipping_policy.md > Tracking your order
+Q10,How long does a refund to UPI take?,hybrid,1,1,1.0,1,refund_policy.md > Refund timelines | refund_policy.md > Exchanges | refund_policy.md > Return window
+Q11,Will you refund the shipping charge when I return an item?,dense,0,0,0,,"refund_policy.md > Damaged, defective or wrong items | refund_policy.md > How to start a return | refund_policy.md > Return window"
+Q11,Will you refund the shipping charge when I return an item?,bm25,0,0,0,,"shipping_policy.md > Changing the delivery address | refund_policy.md > Damaged, defective or wrong items | product_faq.md > Stock and restocks"
+Q11,Will you refund the shipping charge when I return an item?,hybrid,0,0,0,,"refund_policy.md > Damaged, defective or wrong items | refund_policy.md > Return window | refund_policy.md > How to start a return"
+Q12,My parcel arrived damaged. What can I do?,dense,0,1,0.5,2,"shipping_policy.md > Lost or ""delivered but not received"" | refund_policy.md > Damaged, defective or wrong items | product_faq.md > Product received broken or not working"
+Q12,My parcel arrived damaged. What can I do?,bm25,1,1,1.0,1,"refund_policy.md > Damaged, defective or wrong items | shipping_policy.md > Late or delayed orders | shipping_policy.md > Lost or ""delivered but not received"""
+Q12,My parcel arrived damaged. What can I do?,hybrid,1,1,1.0,1,"refund_policy.md > Damaged, defective or wrong items | shipping_policy.md > Lost or ""delivered but not received"" | shipping_policy.md > Late or delayed orders"
+Q13,Can I exchange a shirt for a bigger size?,dense,1,1,1.0,1,product_faq.md > Sizes and fit | refund_policy.md > Exchanges
+Q13,Can I exchange a shirt for a bigger size?,bm25,1,1,1.0,1,product_faq.md > Sizes and fit
+Q13,Can I exchange a shirt for a bigger size?,hybrid,1,1,1.0,1,product_faq.md > Sizes and fit | refund_policy.md > Exchanges
+Q14,I was charged twice for the same order.,dense,1,1,1.0,1,refund_policy.md > Billing problems and duplicate charges | account_and_login.md > Suspicious activity or hacked account
+Q14,I was charged twice for the same order.,bm25,1,1,1.0,1,refund_policy.md > Billing problems and duplicate charges | shipping_policy.md > Delivery options and timelines | shipping_policy.md > Processing time
+Q14,I was charged twice for the same order.,hybrid,1,1,1.0,1,refund_policy.md > Billing problems and duplicate charges | shipping_policy.md > Late or delayed orders | account_and_login.md > Suspicious activity or hacked account
+Q15,"If I order at 4 PM, when will it be dispatched?",dense,1,1,1.0,1,shipping_policy.md > Processing time | shipping_policy.md > Late or delayed orders | shipping_policy.md > Delivery options and timelines
+Q15,"If I order at 4 PM, when will it be dispatched?",bm25,1,1,1.0,1,shipping_policy.md > Processing time | shipping_policy.md > Changing the delivery address | shipping_policy.md > Tracking your order
+Q15,"If I order at 4 PM, when will it be dispatched?",hybrid,1,1,1.0,1,shipping_policy.md > Processing time | shipping_policy.md > Late or delayed orders | shipping_policy.md > Tracking your order
+Q16,How much does Express delivery cost?,dense,1,1,1.0,1,"shipping_policy.md > Delivery options and timelines | shipping_policy.md > Lost or ""delivered but not received"" | shipping_policy.md > Changing the delivery address"
+Q16,How much does Express delivery cost?,bm25,1,1,1.0,1,shipping_policy.md > Delivery options and timelines
+Q16,How much does Express delivery cost?,hybrid,1,1,1.0,1,shipping_policy.md > Delivery options and timelines | shipping_policy.md > Changing the delivery address | shipping_policy.md > Late or delayed orders
+Q17,Is Same-Day delivery available in Hyderabad?,dense,1,1,1.0,1,shipping_policy.md > Delivery options and timelines | shipping_policy.md > Processing time | shipping_policy.md > International shipping
+Q17,Is Same-Day delivery available in Hyderabad?,bm25,1,1,1.0,1,shipping_policy.md > Delivery options and timelines | shipping_policy.md > Processing time | product_faq.md > Contacting support
+Q17,Is Same-Day delivery available in Hyderabad?,hybrid,1,1,1.0,1,shipping_policy.md > Delivery options and timelines | shipping_policy.md > Processing time | shipping_policy.md > Late or delayed orders
+Q18,When is an order considered late?,dense,1,1,1.0,1,shipping_policy.md > Late or delayed orders | shipping_policy.md > Processing time | shipping_policy.md > Tracking your order
+Q18,When is an order considered late?,bm25,1,1,1.0,1,shipping_policy.md > Late or delayed orders
+Q18,When is an order considered late?,hybrid,1,1,1.0,1,shipping_policy.md > Late or delayed orders | shipping_policy.md > Tracking your order | shipping_policy.md > Processing time
+Q19,Tracking says delivered but I never got the parcel.,dense,1,1,1.0,1,"shipping_policy.md > Lost or ""delivered but not received"" | shipping_policy.md > Tracking your order | shipping_policy.md > Late or delayed orders"
+Q19,Tracking says delivered but I never got the parcel.,bm25,1,1,1.0,1,"shipping_policy.md > Lost or ""delivered but not received"""
+Q19,Tracking says delivered but I never got the parcel.,hybrid,1,1,1.0,1,"shipping_policy.md > Lost or ""delivered but not received"" | shipping_policy.md > Tracking your order | refund_policy.md > How to start a return"
+Q20,Can I change the delivery address after the order is dispatched?,dense,1,1,1.0,1,shipping_policy.md > Changing the delivery address | shipping_policy.md > Processing time | shipping_policy.md > Tracking your order
+Q20,Can I change the delivery address after the order is dispatched?,bm25,1,1,1.0,1,shipping_policy.md > Changing the delivery address
+Q20,Can I change the delivery address after the order is dispatched?,hybrid,1,1,1.0,1,shipping_policy.md > Changing the delivery address | shipping_policy.md > Tracking your order | shipping_policy.md > Processing time
+Q21,Do you ship to Singapore?,dense,1,1,1.0,1,shipping_policy.md > International shipping | shipping_policy.md > Delivery options and timelines | shipping_policy.md > Processing time
+Q21,Do you ship to Singapore?,bm25,1,1,1.0,1,shipping_policy.md > International shipping
+Q21,Do you ship to Singapore?,hybrid,1,1,1.0,1,shipping_policy.md > International shipping | shipping_policy.md > Delivery options and timelines | shipping_policy.md > Processing time
+Q22,My Express order arrived late. Do I get the shipping fee back?,dense,1,1,1.0,1,"shipping_policy.md > Late or delayed orders | shipping_policy.md > Lost or ""delivered but not received"" | refund_policy.md > How to start a return"
+Q22,My Express order arrived late. Do I get the shipping fee back?,bm25,1,1,1.0,1,shipping_policy.md > Late or delayed orders
+Q22,My Express order arrived late. Do I get the shipping fee back?,hybrid,1,1,1.0,1,shipping_policy.md > Late or delayed orders | shipping_policy.md > Tracking your order | shipping_policy.md > Delivery options and timelines
+Q23,How long does delivery take to a pin code in Ladakh?,dense,1,1,1.0,1,shipping_policy.md > Delivery options and timelines | shipping_policy.md > Processing time | shipping_policy.md > Late or delayed orders
+Q23,How long does delivery take to a pin code in Ladakh?,bm25,1,1,1.0,1,shipping_policy.md > Delivery options and timelines | account_and_login.md > Resetting your password
+Q23,How long does delivery take to a pin code in Ladakh?,hybrid,1,1,1.0,1,shipping_policy.md > Delivery options and timelines | shipping_policy.md > Tracking your order | refund_policy.md > How to start a return
+Q24,What warranty do electronics come with?,dense,1,1,1.0,1,"product_faq.md > Warranty | refund_policy.md > Damaged, defective or wrong items | refund_policy.md > Return window"
+Q24,What warranty do electronics come with?,bm25,1,1,1.0,1,product_faq.md > Warranty
+Q24,What warranty do electronics come with?,hybrid,1,1,1.0,1,"product_faq.md > Warranty | refund_policy.md > Return window | refund_policy.md > Damaged, defective or wrong items"
+Q25,What is the highest value gift card I can buy?,dense,1,1,1.0,1,product_faq.md > Gift cards | product_faq.md > Payment methods
+Q25,What is the highest value gift card I can buy?,bm25,1,1,1.0,1,product_faq.md > Gift cards
+Q25,What is the highest value gift card I can buy?,hybrid,1,1,1.0,1,product_faq.md > Gift cards | product_faq.md > Payment methods
+Q26,"Can I pay cash on delivery for a ₹15,000 order?",dense,0,1,0.5,2,shipping_policy.md > Delivery options and timelines | product_faq.md > Payment methods | shipping_policy.md > Changing the delivery address
+Q26,"Can I pay cash on delivery for a ₹15,000 order?",bm25,1,1,1.0,1,product_faq.md > Payment methods | product_faq.md > Gift cards | shipping_policy.md > Changing the delivery address
+Q26,"Can I pay cash on delivery for a ₹15,000 order?",hybrid,1,1,1.0,1,product_faq.md > Payment methods | shipping_policy.md > Delivery options and timelines | product_faq.md > Gift cards
+Q27,The price dropped a day after I bought it. Will you refund the difference?,dense,1,1,1.0,1,"product_faq.md > Price changes | refund_policy.md > Billing problems and duplicate charges | refund_policy.md > Damaged, defective or wrong items"
+Q27,The price dropped a day after I bought it. Will you refund the difference?,bm25,1,1,1.0,1,product_faq.md > Price changes | shipping_policy.md > Changing the delivery address | shipping_policy.md > Late or delayed orders
+Q27,The price dropped a day after I bought it. Will you refund the difference?,hybrid,1,1,1.0,1,"product_faq.md > Price changes | refund_policy.md > Refund timelines | refund_policy.md > Damaged, defective or wrong items"
+Q28,What are your customer support hours?,dense,1,1,1.0,1,product_faq.md > Contacting support | shipping_policy.md > Delivery options and timelines | shipping_policy.md > Processing time
+Q28,What are your customer support hours?,bm25,1,1,1.0,1,product_faq.md > Contacting support | shipping_policy.md > Late or delayed orders
+Q28,What are your customer support hours?,hybrid,1,1,1.0,1,product_faq.md > Contacting support | shipping_policy.md > Late or delayed orders | product_faq.md > Product received broken or not working
+Q29,Can you tell me when an out-of-stock item will be back?,dense,1,1,1.0,1,"product_faq.md > Stock and restocks | refund_policy.md > Return window | refund_policy.md > Damaged, defective or wrong items"
+Q29,Can you tell me when an out-of-stock item will be back?,bm25,1,1,1.0,1,product_faq.md > Stock and restocks
+Q29,Can you tell me when an out-of-stock item will be back?,hybrid,1,1,1.0,1,"product_faq.md > Stock and restocks | refund_policy.md > Damaged, defective or wrong items | refund_policy.md > Return window"

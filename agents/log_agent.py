@@ -14,6 +14,7 @@ COLUMNS = [
     "ticket_id",
     "timestamp",
     "customer_name",
+    "customer_id",  # the portal username; filled in by the app after logging
     "order_id",
     "complaint",
     "category",
@@ -31,6 +32,10 @@ COLUMNS = [
     "reviewer",
     "final_response",
     "reviewed_at",
+    # Follow-ups (see agents/followup.py): the earlier ticket and the customer's own words;
+    # the complaint column then holds the standalone request the agents worked on.
+    "parent_ticket",
+    "followup_text",
 ]
 
 PENDING = "Pending approval"
