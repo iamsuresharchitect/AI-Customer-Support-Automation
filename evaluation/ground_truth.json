@@ -1,0 +1,490 @@
+{
+ "_note": "Ground truth for evaluate.py. relevant = (document, section) pairs that answer the question; facts = any one of these phrases (lowercase) must appear in a correct answer.",
+ "questions": [
+  {
+   "id": "Q01",
+   "question": "How long is the password reset code valid?",
+   "relevant": [
+    [
+     "account_and_login.md",
+     "Resetting your password"
+    ]
+   ],
+   "facts": [
+    "15 minutes"
+   ]
+  },
+  {
+   "id": "Q02",
+   "question": "My account got locked after I typed the wrong password a few times. How long until I can try again?",
+   "relevant": [
+    [
+     "account_and_login.md",
+     "Account locked"
+    ]
+   ],
+   "facts": [
+    "30 minutes"
+   ]
+  },
+  {
+   "id": "Q03",
+   "question": "How do I change the mobile number on my account?",
+   "relevant": [
+    [
+     "account_and_login.md",
+     "Changing your email or phone number"
+    ]
+   ],
+   "facts": [
+    "profile"
+   ]
+  },
+  {
+   "id": "Q04",
+   "question": "How do I turn on two-step verification?",
+   "relevant": [
+    [
+     "account_and_login.md",
+     "Two-step verification"
+    ]
+   ],
+   "facts": [
+    "security"
+   ]
+  },
+  {
+   "id": "Q05",
+   "question": "How long does it take to delete my account?",
+   "relevant": [
+    [
+     "account_and_login.md",
+     "Deleting your account"
+    ]
+   ],
+   "facts": [
+    "30 days"
+   ]
+  },
+  {
+   "id": "Q06",
+   "question": "Someone placed orders on my account that I never made. What should I do?",
+   "relevant": [
+    [
+     "account_and_login.md",
+     "Suspicious activity or hacked account"
+    ]
+   ],
+   "facts": [
+    "reset your password",
+    "trust & safety",
+    "trust and safety"
+   ]
+  },
+  {
+   "id": "Q07",
+   "question": "How many days do I have to return headphones?",
+   "relevant": [
+    [
+     "refund_policy.md",
+     "Return window"
+    ]
+   ],
+   "facts": [
+    "10 days"
+   ]
+  },
+  {
+   "id": "Q08",
+   "question": "Can I return socks I bought?",
+   "relevant": [
+    [
+     "refund_policy.md",
+     "Items that cannot be returned"
+    ]
+   ],
+   "facts": [
+    "cannot",
+    "can't",
+    "not"
+   ]
+  },
+  {
+   "id": "Q09",
+   "question": "How do I start a return?",
+   "relevant": [
+    [
+     "refund_policy.md",
+     "How to start a return"
+    ]
+   ],
+   "facts": [
+    "return item"
+   ]
+  },
+  {
+   "id": "Q10",
+   "question": "How long does a refund to UPI take?",
+   "relevant": [
+    [
+     "refund_policy.md",
+     "Refund timelines"
+    ]
+   ],
+   "facts": [
+    "1 to 2 business days",
+    "1-2 business days"
+   ]
+  },
+  {
+   "id": "Q11",
+   "question": "Will you refund the shipping charge when I return an item?",
+   "relevant": [
+    [
+     "refund_policy.md",
+     "Refund timelines"
+    ]
+   ],
+   "facts": [
+    "not refunded",
+    "isn't refunded",
+    "are not refunded"
+   ]
+  },
+  {
+   "id": "Q12",
+   "question": "My parcel arrived damaged. What can I do?",
+   "relevant": [
+    [
+     "refund_policy.md",
+     "Damaged, defective or wrong items"
+    ],
+    [
+     "product_faq.md",
+     "Product received broken or not working"
+    ]
+   ],
+   "facts": [
+    "48 hours"
+   ]
+  },
+  {
+   "id": "Q13",
+   "question": "Can I exchange a shirt for a bigger size?",
+   "relevant": [
+    [
+     "refund_policy.md",
+     "Exchanges"
+    ],
+    [
+     "product_faq.md",
+     "Sizes and fit"
+    ]
+   ],
+   "facts": [
+    "30 days"
+   ]
+  },
+  {
+   "id": "Q14",
+   "question": "I was charged twice for the same order.",
+   "relevant": [
+    [
+     "refund_policy.md",
+     "Billing problems and duplicate charges"
+    ]
+   ],
+   "facts": [
+    "5 to 7 business days",
+    "5-7 business days"
+   ]
+  },
+  {
+   "id": "Q15",
+   "question": "If I order at 4 PM, when will it be dispatched?",
+   "relevant": [
+    [
+     "shipping_policy.md",
+     "Processing time"
+    ]
+   ],
+   "facts": [
+    "next business day"
+   ]
+  },
+  {
+   "id": "Q16",
+   "question": "How much does Express delivery cost?",
+   "relevant": [
+    [
+     "shipping_policy.md",
+     "Delivery options and timelines"
+    ]
+   ],
+   "facts": [
+    "149"
+   ]
+  },
+  {
+   "id": "Q17",
+   "question": "Is Same-Day delivery available in Hyderabad?",
+   "relevant": [
+    [
+     "shipping_policy.md",
+     "Delivery options and timelines"
+    ]
+   ],
+   "facts": [
+    "chennai",
+    "not available",
+    "only"
+   ]
+  },
+  {
+   "id": "Q18",
+   "question": "When is an order considered late?",
+   "relevant": [
+    [
+     "shipping_policy.md",
+     "Late or delayed orders"
+    ]
+   ],
+   "facts": [
+    "2 business days"
+   ]
+  },
+  {
+   "id": "Q19",
+   "question": "Tracking says delivered but I never got the parcel.",
+   "relevant": [
+    [
+     "shipping_policy.md",
+     "Lost or \"delivered but not received\""
+    ]
+   ],
+   "facts": [
+    "48 hours"
+   ]
+  },
+  {
+   "id": "Q20",
+   "question": "Can I change the delivery address after the order is dispatched?",
+   "relevant": [
+    [
+     "shipping_policy.md",
+     "Changing the delivery address"
+    ]
+   ],
+   "facts": [
+    "cannot",
+    "can't"
+   ]
+  },
+  {
+   "id": "Q21",
+   "question": "Do you ship to Singapore?",
+   "relevant": [
+    [
+     "shipping_policy.md",
+     "International shipping"
+    ]
+   ],
+   "facts": [
+    "only within india",
+    "only ship within india",
+    "india"
+   ]
+  },
+  {
+   "id": "Q22",
+   "question": "My Express order arrived late. Do I get the shipping fee back?",
+   "relevant": [
+    [
+     "shipping_policy.md",
+     "Late or delayed orders"
+    ]
+   ],
+   "facts": [
+    "refunded automatically",
+    "refund"
+   ]
+  },
+  {
+   "id": "Q23",
+   "question": "How long does delivery take to a pin code in Ladakh?",
+   "relevant": [
+    [
+     "shipping_policy.md",
+     "Delivery options and timelines"
+    ]
+   ],
+   "facts": [
+    "3 extra business days",
+    "3 extra"
+   ]
+  },
+  {
+   "id": "Q24",
+   "question": "What warranty do electronics come with?",
+   "relevant": [
+    [
+     "product_faq.md",
+     "Warranty"
+    ]
+   ],
+   "facts": [
+    "1 year",
+    "one year"
+   ]
+  },
+  {
+   "id": "Q25",
+   "question": "What is the highest value gift card I can buy?",
+   "relevant": [
+    [
+     "product_faq.md",
+     "Gift cards"
+    ]
+   ],
+   "facts": [
+    "10,000",
+    "10000"
+   ]
+  },
+  {
+   "id": "Q26",
+   "question": "Can I pay cash on delivery for a ₹15,000 order?",
+   "relevant": [
+    [
+     "product_faq.md",
+     "Payment methods"
+    ]
+   ],
+   "facts": [
+    "10,000",
+    "10000"
+   ]
+  },
+  {
+   "id": "Q27",
+   "question": "The price dropped a day after I bought it. Will you refund the difference?",
+   "relevant": [
+    [
+     "product_faq.md",
+     "Price changes"
+    ]
+   ],
+   "facts": [
+    "do not refund",
+    "don't refund",
+    "not refund"
+   ]
+  },
+  {
+   "id": "Q28",
+   "question": "What are your customer support hours?",
+   "relevant": [
+    [
+     "product_faq.md",
+     "Contacting support"
+    ]
+   ],
+   "facts": [
+    "8:00 am",
+    "8 am",
+    "8:00"
+   ]
+  },
+  {
+   "id": "Q29",
+   "question": "Can you tell me when an out-of-stock item will be back?",
+   "relevant": [
+    [
+     "product_faq.md",
+     "Stock and restocks"
+    ]
+   ],
+   "facts": [
+    "notify me"
+   ]
+  }
+ ],
+ "followups": [
+  {
+   "id": "F1",
+   "complaint": "Where is my order ORD-4512? It was supposed to arrive yesterday.",
+   "reply": "An order counts as late 2 business days after its delivery estimate. If it hasn't arrived by then, contact us and we'll open a trace with the courier.",
+   "followup": "It's been three more business days now and it still hasn't come. What happens next?",
+   "relevant": [
+    [
+     "shipping_policy.md",
+     "Late or delayed orders"
+    ]
+   ]
+  },
+  {
+   "id": "F2",
+   "complaint": "The blender I received is broken. Can I get a replacement?",
+   "reply": "Yes. Report it within 48 hours with photos and choose a free replacement or a full refund. Replacements ship within 2 business days.",
+   "followup": "Actually I'd rather have my money back. I paid by card, so how long until I see it?",
+   "relevant": [
+    [
+     "refund_policy.md",
+     "Refund timelines"
+    ]
+   ]
+  },
+  {
+   "id": "F3",
+   "complaint": "I forgot my password and can't log in.",
+   "reply": "Click Forgot password? and we'll send a 6-digit code by email or SMS, valid for 15 minutes.",
+   "followup": "I waited ages and nothing ever arrived in my inbox. What should I do now?",
+   "relevant": [
+    [
+     "account_and_login.md",
+     "Resetting your password"
+    ]
+   ]
+  },
+  {
+   "id": "F4",
+   "complaint": "Can I change the delivery address? I just placed the order an hour ago.",
+   "reply": "Yes, you can change it under My Account > Orders until the order is dispatched.",
+   "followup": "Hmm, the app now shows it went out this morning. Is it too late?",
+   "relevant": [
+    [
+     "shipping_policy.md",
+     "Changing the delivery address"
+    ]
+   ]
+  },
+  {
+   "id": "F5",
+   "complaint": "I want to return the shoes I bought last week. How do I get a refund?",
+   "reply": "Go to My Account > Orders, choose Return Item, and schedule a free pickup. Refunds are issued after inspection.",
+   "followup": "Instead of sending them back for money, could I just get a bigger pair?",
+   "relevant": [
+    [
+     "refund_policy.md",
+     "Exchanges"
+    ],
+    [
+     "product_faq.md",
+     "Sizes and fit"
+    ]
+   ]
+  },
+  {
+   "id": "F6",
+   "complaint": "You charged my card three times for order ORD-4719!",
+   "reply": "Duplicate charges are usually reversed by your bank within 5 to 7 business days.",
+   "followup": "It has been ten days and the money still isn't back on my statement.",
+   "relevant": [
+    [
+     "refund_policy.md",
+     "Billing problems and duplicate charges"
+    ]
+   ]
+  }
+ ]
+}

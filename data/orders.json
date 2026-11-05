@@ -1,0 +1,203 @@
+{
+ "_note": "Sample orders for the demo customers. Dates are relative to today: ordered_days_ago, and event_days = days since delivery/cancel/refund, or days until delivery (negative means late) for orders on the way.",
+ "orders": [
+  {
+   "order_id": "ORD-4512",
+   "customer": "priya",
+   "product": "Noise-cancelling Wireless Headphones",
+   "variant": "Midnight Blue",
+   "price": 3499,
+   "icon": "🎧",
+   "status": "On the way",
+   "ordered_days_ago": 6,
+   "event_days": -1
+  },
+  {
+   "order_id": "ORD-4390",
+   "customer": "priya",
+   "product": "Cotton Printed Kurta",
+   "variant": "Size M · Teal",
+   "price": 899,
+   "icon": "👕",
+   "status": "Delivered",
+   "ordered_days_ago": 24,
+   "event_days": 19
+  },
+  {
+   "order_id": "ORD-4211",
+   "customer": "priya",
+   "product": "Stainless Steel Water Bottle (1 L)",
+   "variant": "Silver",
+   "price": 449,
+   "icon": "🧴",
+   "status": "Delivered",
+   "ordered_days_ago": 52,
+   "event_days": 47
+  },
+  {
+   "order_id": "ORD-4630",
+   "customer": "arjun",
+   "product": "Men's Running Shoes",
+   "variant": "Size 9 · Grey",
+   "price": 2799,
+   "icon": "👟",
+   "status": "Delivered",
+   "ordered_days_ago": 9,
+   "event_days": 5
+  },
+  {
+   "order_id": "ORD-4488",
+   "customer": "arjun",
+   "product": "Laptop Backpack 30 L",
+   "variant": "Black",
+   "price": 1299,
+   "icon": "🎒",
+   "status": "Delivered",
+   "ordered_days_ago": 33,
+   "event_days": 29
+  },
+  {
+   "order_id": "ORD-4702",
+   "customer": "meena",
+   "product": "Smart Watch with AMOLED Display",
+   "variant": "Rose Gold",
+   "price": 4999,
+   "icon": "⌚",
+   "status": "On the way",
+   "ordered_days_ago": 2,
+   "event_days": 3
+  },
+  {
+   "order_id": "ORD-4350",
+   "customer": "meena",
+   "product": "Yoga Mat 6 mm",
+   "variant": "Purple",
+   "price": 699,
+   "icon": "🧘",
+   "status": "Returned",
+   "ordered_days_ago": 40,
+   "event_days": 30
+  },
+  {
+   "order_id": "ORD-4701",
+   "customer": "karthik",
+   "product": "Mixer Grinder 750 W",
+   "variant": "White",
+   "price": 3299,
+   "icon": "🥤",
+   "status": "Delivered",
+   "ordered_days_ago": 4,
+   "event_days": 1
+  },
+  {
+   "order_id": "ORD-4555",
+   "customer": "karthik",
+   "product": "Air Fryer 4 L",
+   "variant": "Black",
+   "price": 5499,
+   "icon": "🍟",
+   "status": "Cancelled",
+   "ordered_days_ago": 20,
+   "event_days": 19
+  },
+  {
+   "order_id": "ORD-4719",
+   "customer": "rahul",
+   "product": "Smartphone 128 GB",
+   "variant": "Graphite Black",
+   "price": 18999,
+   "icon": "📱",
+   "status": "On the way",
+   "ordered_days_ago": 3,
+   "event_days": 2
+  },
+  {
+   "order_id": "ORD-4402",
+   "customer": "rahul",
+   "product": "Phone Back Cover",
+   "variant": "Clear",
+   "price": 299,
+   "icon": "📦",
+   "status": "Delivered",
+   "ordered_days_ago": 30,
+   "event_days": 26
+  },
+  {
+   "order_id": "ORD-4620",
+   "customer": "anita",
+   "product": "E-Gift Card ₹2,000",
+   "variant": "Email delivery",
+   "price": 2000,
+   "icon": "🎁",
+   "status": "Delivered",
+   "ordered_days_ago": 10,
+   "event_days": 10
+  },
+  {
+   "order_id": "ORD-4802",
+   "customer": "deepa",
+   "product": "Pressure Cooker 5 L",
+   "variant": "Steel",
+   "price": 1899,
+   "icon": "🍲",
+   "status": "On the way",
+   "ordered_days_ago": 0,
+   "event_days": 4
+  },
+  {
+   "order_id": "ORD-4511",
+   "customer": "deepa",
+   "product": "Bedsheet Set (Double)",
+   "variant": "Floral",
+   "price": 1199,
+   "icon": "🛏️",
+   "status": "Delivered",
+   "ordered_days_ago": 27,
+   "event_days": 23
+  },
+  {
+   "order_id": "ORD-4750",
+   "customer": "vikram",
+   "product": "Bluetooth Speaker",
+   "variant": "Red",
+   "price": 2499,
+   "icon": "🔊",
+   "status": "Delivered",
+   "ordered_days_ago": 8,
+   "event_days": 5
+  },
+  {
+   "order_id": "ORD-4655",
+   "customer": "anu",
+   "product": "Ceramic Dinner Set (18 pcs)",
+   "variant": "White",
+   "price": 2999,
+   "icon": "🍽️",
+   "status": "On the way",
+   "ordered_days_ago": 7,
+   "event_days": -1
+  },
+  {
+   "order_id": "ORD-4610",
+   "customer": "ravi",
+   "product": "Wireless Mouse",
+   "variant": "Black",
+   "price": 599,
+   "icon": "🖱️",
+   "status": "Delivered",
+   "ordered_days_ago": 12,
+   "event_days": 9
+  },
+  {
+   "order_id": "ORD-4300",
+   "customer": "ravi",
+   "product": "Mechanical Keyboard",
+   "variant": "Blue switches",
+   "price": 3199,
+   "icon": "⌨️",
+   "status": "Delivered",
+   "ordered_days_ago": 400,
+   "event_days": 395
+  }
+ ]
+}

@@ -86,11 +86,13 @@ def build_team(model_client=None) -> SelectorGroupChat:
     )
 
 
-def build_task(complaint: str, customer_name: str = "", order_id: str = "") -> str:
+def build_task(complaint: str, customer_name: str = "", order_id: str = "", order_details: str = "") -> str:
+    details = f"Order details (from our system): {order_details.strip()}\n" if order_details.strip() else ""
     return (
         "New customer support ticket.\n"
         f"Customer name: {customer_name.strip() or 'not given'}\n"
         f"Order ID: {order_id.strip() or 'not given'}\n"
+        f"{details}"
         f"Complaint: {complaint.strip()}"
     )
 
@@ -120,12 +122,16 @@ def _update_outcome(outcome: TicketOutcome, source: str, content: str) -> None:
 
 
 async def run_ticket(
-    complaint: str, customer_name: str = "", order_id: str = "", team: SelectorGroupChat | None = None
+    complaint: str,
+    customer_name: str = "",
+    order_id: str = "",
+    team: SelectorGroupChat | None = None,
+    order_details: str = "",
 ) -> AsyncGenerator[tuple[str, str] | TicketOutcome, None]:
     """Yield (agent_name, output) as each agent finishes, then the final TicketOutcome."""
     team = team or build_team()
     outcome = TicketOutcome()
-    task = build_task(complaint, customer_name, order_id)
+    task = build_task(complaint, customer_name, order_id, order_details)
 
     async for item in team.run_stream(task=task, output_task_messages=False):
         if isinstance(item, TaskResult):
